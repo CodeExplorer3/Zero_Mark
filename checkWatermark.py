@@ -1,25 +1,30 @@
 import numpy as np
 from keras.preprocessing import image
 from keras.models import load_model
+import sys
 
-# Load the model
-model = load_model('./rollingAvgModel.keras')
+"""
+This Script Allows a user to submit a 28x28x3 mnist image to a 
+trained model for watermark detection.  The first argument is the model path
+The second is the image path.
+"""
 
-# Load image
-# img_path = './RollingAverage/plainImage.jpg'
-img_path = './RollingAverage/markedImage.jpg'
-img = image.load_img(img_path, target_size=(28, 28))
-img_array = image.img_to_array(img)
-img_array = np.expand_dims(img_array, axis=0)
-img_array = img_array / 255. 
-
-# Make predictions
-predictions = model.predict(img_array)
-
-print(predictions)
-
-class_labels = ['marked', 'unmarked']  # Class Labels
-decoded_predictions = [class_labels[idx] for idx in np.argmax(predictions, axis=1)]
-
-# Print the predicted class
-print(decoded_predictions)
+if (len(sys.argv) < 2):
+    print("Not Enough Arguments")
+else:
+    modelPath = sys.argv[1]
+    imgPath = sys.argv[2]
+    
+    # Load the model
+    model = load_model(modelPath)
+    
+    # Load the image
+    img = image.load_img(imgPath, target_size=(28, 28))
+    imgArray = image.img_to_array(img)
+    imgArray = np.expand_dims(imgArray, axis=0)
+    imgArray = imgArray / 255. 
+    
+    # Make predictions
+    predictions = model.predict(imgArray)
+    
+    print(f"Unmarked: {(predictions[0][0]):.4f} \n  Marked: {(1 - predictions[0][0]):.4f}")
