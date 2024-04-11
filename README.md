@@ -2,8 +2,10 @@
 Open Zero-Watermarking Approach to Prevent the Unauthorized Use of Images
 
 ## Dependencies
-TensorFlow
+Conda (Python 3.11.4)
 
-Matplotlib
+TensorFlow version 2.14.0
 
-scikit-learn
+Matplotlib version 3.7.1
+
+scikit-learn version 1.3.0
